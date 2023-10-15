@@ -1,5 +1,4 @@
 "use client";
-
 import BribeChildHome from "@/components/bribe-child-home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 

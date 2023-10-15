@@ -8,7 +8,7 @@ type AddPrizeFormValues = {
   prizeName: string;
   pointValue: string;
 };
-console.log(crypto.randomUUID());
+
 export function AddPrize({ refetch }: { refetch: () => void }) {
   const { register, handleSubmit, reset } = useForm<AddPrizeFormValues>();
 
