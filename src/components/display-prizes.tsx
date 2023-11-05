@@ -1,33 +1,67 @@
 "use client";
 
 import { Prize } from "@/app/common-types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import placeholderImage from "../../public/alicorn.png";
+import { TotalPointsResponse } from "@/components/total-points-response";
 
 export function DisplayPrizes({
-  data,
+  prizeData,
   refetch,
+  totalPointsQuery,
 }: {
-  data: Prize | undefined;
+  prizeData: Prize | undefined;
   refetch: () => void;
+  totalPointsQuery: UseQueryResult<TotalPointsResponse>;
 }) {
-  const mutation = useMutation({
+  const totalPoints = totalPointsQuery.data?.data.rows[0].points;
+
+  const deletePrize = useMutation({
     mutationFn: ({ prizeUuid }: { prizeUuid: string }) =>
       axios
         .delete(`/api/delete-prize?prizeUuid=${prizeUuid}`)
         .then((res) => res),
     onSuccess: () => {
       refetch();
+      totalPointsQuery.refetch();
     },
   });
 
-  console.log({ data });
+  const newPoints = useMutation({
+    mutationFn: ({ newPoints }: { newPoints: number }) =>
+      axios
+        .post(`api/points-changed?pointValue=${newPoints}`)
+        .then((res) => res),
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  function handleCashInPoints({
+    prizeUuid,
+    prizeValue,
+  }: {
+    prizeUuid: string;
+    prizeValue: number;
+  }) {
+    if (prizeValue) {
+      const newPointValue = Number(totalPoints) - prizeValue;
+
+      deletePrize.mutate({ prizeUuid });
+      prizeValue
+        ? newPoints.mutate({
+            newPoints: newPointValue,
+          })
+        : null;
+    }
+  }
+
   return (
     <div className="flex flex-wrap justify-center gap-4 pt-6">
-      {data?.data &&
-        data?.data.rows.map((prize) => {
+      {prizeData?.data &&
+        prizeData?.data.rows.map((prize) => {
           return (
             <div
               key={prize.uuid}
@@ -47,10 +81,22 @@ export function DisplayPrizes({
                   Point Value: {prize.point_value}
                 </p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Cash In Points</button>
+                  <button
+                    onClick={() =>
+                      handleCashInPoints({
+                        prizeUuid: prize.uuid,
+                        prizeValue: prize.point_value,
+                      })
+                    }
+                    className="btn btn-primary"
+                  >
+                    Cash In Points
+                  </button>
                   <button
                     className="btn btn-primary"
-                    onClick={() => mutation.mutate({ prizeUuid: prize.uuid })}
+                    onClick={() =>
+                      deletePrize.mutate({ prizeUuid: prize.uuid })
+                    }
                   >
                     DELETE
                   </button>

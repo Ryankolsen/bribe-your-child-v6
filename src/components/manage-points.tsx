@@ -1,26 +1,22 @@
 "use client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { TotalPointsResponse } from "@/components/total-points-response";
 
 type ManagePointsFormValues = {
   pointsAdded: string;
   pointsLost: string;
 };
 
-interface TotalPointsResponse {
-  data: {
-    rows: { points: string }[];
-  };
-}
-export default function ManagePoints() {
+export default function ManagePoints({
+  totalPointsQuery,
+}: {
+  totalPointsQuery: UseQueryResult<TotalPointsResponse, unknown>;
+}) {
+  const { data, refetch, isLoading } = totalPointsQuery;
   const { register, handleSubmit, reset } = useForm<ManagePointsFormValues>();
 
-  const { isLoading, error, data, refetch } = useQuery<TotalPointsResponse>({
-    queryKey: ["totalPoints"],
-    queryFn: () =>
-      axios.get("/api/get-total-points/?dynamic=true").then((res) => res),
-  });
   const totalPointsDisplay: number = Number(data?.data.rows[0].points);
 
   const mutation = useMutation({
@@ -29,7 +25,7 @@ export default function ManagePoints() {
         .post(`api/points-changed?pointValue=${newPoints}`)
         .then((res) => res),
     onSuccess: () => {
-      refetch();
+      refetch().then((r) => console.log(r));
     },
   });
 
