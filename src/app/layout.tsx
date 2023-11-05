@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { NavBar } from "./nav-bar";
 import { getServerSession } from "next-auth";
-import SessionProvider from "@/components/SessionProvider";
+import SessionProvider from "@/components/session-providers";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
