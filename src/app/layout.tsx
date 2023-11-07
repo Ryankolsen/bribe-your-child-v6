@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { NavBar } from "./nav-bar";
 import { getServerSession } from "next-auth";
-import SessionProvider from "@/components/SessionProvider";
 import { ReactNode } from "react";
+import SessionProvider from "@/components/session-provider";
 
 export const metadata: Metadata = {
   title: "Bribe Your Child",
