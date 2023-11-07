@@ -6,7 +6,11 @@ export async function POST(request: Request) {
   const { searchParams } = new URL(request.url);
   const pointValue = searchParams.get("pointValue");
   const totalPointsDb =
-    process.env.ENVIRONMENT === "dev" ? "totalpoints_dev" : "totalpoints";
+    process.env.ENVIRONMENT === "dev"
+      ? "totalpoints_dev"
+      : process.env.ENVIRONMENT === "prod"
+      ? "totalpoints"
+      : "";
   console.log("totalPointsDb", totalPointsDb);
   try {
     if (!pointValue) throw new Error("Point value required");
