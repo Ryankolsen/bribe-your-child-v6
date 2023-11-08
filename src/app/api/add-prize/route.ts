@@ -2,6 +2,7 @@ import { UUID } from "@/components/temp-constants";
 import { sql } from "@vercel/postgres";
 import crypto from "crypto";
 import { NextResponse } from "next/server";
+import { Environment } from "@/constants/constants";
 
 export async function POST(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -17,10 +18,18 @@ export async function POST(request: Request) {
 
   const newUuid = crypto.randomUUID();
 
-  const query = sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid)
-                   VALUES (${newUuid}, ${Number(
-    pointValue
-  )}, ${prizeName}, ${UUID})`;
+  const queryRecord: Record<string, any> = {
+    dev: sql`INSERT INTO prizes_dev (uuid, point_value, description, User_Uuid)
+                 VALUES (${newUuid}, ${Number(
+      pointValue
+    )}, ${prizeName}, ${UUID})`,
+    prod: sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid)
+                  VALUES (${newUuid}, ${Number(
+      pointValue
+    )}, ${prizeName}, ${UUID})`,
+  };
+
+  const query = queryRecord[process.env.ENVIRONMENT as Environment];
 
   try {
     await query;
