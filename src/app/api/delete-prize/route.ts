@@ -18,8 +18,6 @@ export async function DELETE(request: Request) {
   const query = queryRecord[process.env.ENVIRONMENT as Environment];
   try {
     if (!prizeUuid) return new Error("Prize uuid required");
-
-    // Use a parameterized query to safely pass the UUID value
     await query;
   } catch (error) {
     console.log("error", error);
