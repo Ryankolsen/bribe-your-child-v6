@@ -1,15 +1,11 @@
-"use client";
-import BribeChildHome from "@/components/bribe-child-home";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ClientSide from "@/components/client-side";
+import ServerSide from "@/app/server-side/page";
 
 export default function Home() {
-  const queryClient = new QueryClient();
-
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <BribeChildHome />
-      </QueryClientProvider>
+      <ServerSide />
+      <ClientSide />
     </>
   );
 }
