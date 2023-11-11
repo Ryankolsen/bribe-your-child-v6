@@ -8,13 +8,18 @@ import ManagePoints from "./manage-points";
 import { signIn, useSession } from "next-auth/react";
 import { TotalPointsResponse } from "@/components/total-points-response";
 
-export default function BribeChildHome() {
+export default function BribeChildHome({
+  totalPoints,
+}: {
+  totalPoints: number;
+}) {
   const { data, refetch } = useQuery<Prize>({
     queryKey: ["prizes"],
     queryFn: () => axios.get("/api/get-all-prizes").then((res) => res),
   });
   const { data: session } = useSession();
   console.log(session?.user?.email);
+  const totalPointsNow = totalPoints;
 
   function handleSignIn() {
     signIn("google", { callbackUrl: "http://localhost:3000" }).then((r) =>
@@ -27,12 +32,13 @@ export default function BribeChildHome() {
     queryFn: () =>
       axios.get("/api/get-total-points/?dynamic=true").then((res) => res),
   });
-
+  console.log("totalPointsNow", totalPointsNow);
   return (
     <>
       {session?.user?.email === "ryankolsen@gmail.com" ||
       session?.user?.email === "kristame6@gmail.com" ? (
         <>
+          <div>TOTAL POINTS:{totalPointsNow}</div>
           <div className="p-4 flex flex-col items-center">
             <ManagePoints totalPointsQuery={totalPointsQuery} />
             <AddPrize refetch={refetch} />
