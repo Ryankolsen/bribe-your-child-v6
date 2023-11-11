@@ -1,3 +1,4 @@
+"use client";
 import { Prize } from "@/app/common-types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";

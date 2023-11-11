@@ -1,10 +1,11 @@
 import ClientSide from "@/components/client-side";
-import ServerSide from "@/app/server-side/page";
+import getTotalPointsServer from "@/app/server-side/page";
 
-export default function Home() {
+export default async function Home() {
+  const totalPoints = await getTotalPointsServer();
+  console.log("totalPoints", totalPoints);
   return (
     <>
-      <ServerSide />
       <ClientSide />
     </>
   );
