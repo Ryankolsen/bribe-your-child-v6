@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { Environment } from "@/constants/constants";
-import { UUID } from "@/components/temp-constants";
+import { UUID } from "@/app/ui/components/temp-constants";
 
 export async function POST(request: Request) {
   const { searchParams } = new URL(request.url);

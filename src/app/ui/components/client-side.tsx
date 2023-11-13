@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import BribeChildHome from "@/components/bribe-child-home";
+import BribeChildHome from "@/app/ui/components/bribe-child-home";
 
 export default function ClientSide({ totalPoints }: { totalPoints: number }) {
   const queryClient = new QueryClient();

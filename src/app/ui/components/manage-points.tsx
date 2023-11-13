@@ -2,7 +2,7 @@
 import { useMutation, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { TotalPointsResponse } from "@/components/total-points-response";
+import { TotalPointsResponse } from "@/app/ui/components/total-points-response";
 
 type ManagePointsFormValues = {
   pointsAdded: string;

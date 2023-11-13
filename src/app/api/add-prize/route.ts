@@ -1,4 +1,4 @@
-import { UUID } from "@/components/temp-constants";
+import { UUID } from "@/app/ui/components/temp-constants";
 import { sql } from "@vercel/postgres";
 import crypto from "crypto";
 import { NextResponse } from "next/server";

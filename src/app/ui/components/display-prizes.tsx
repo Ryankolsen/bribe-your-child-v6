@@ -4,8 +4,8 @@ import { Prize } from "@/app/common-types";
 import { useMutation, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import placeholderImage from "../../public/alicorn.png";
-import { TotalPointsResponse } from "@/components/total-points-response";
+import placeholderImage from "../../../../public/alicorn.png";
+import { TotalPointsResponse } from "@/app/ui/components/total-points-response";
 
 export function DisplayPrizes({
   prizeData,

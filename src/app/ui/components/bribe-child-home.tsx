@@ -6,7 +6,7 @@ import { AddPrize } from "./add-prize";
 import { DisplayPrizes } from "./display-prizes";
 import ManagePoints from "./manage-points";
 import { signIn, useSession } from "next-auth/react";
-import { TotalPointsResponse } from "@/components/total-points-response";
+import { TotalPointsResponse } from "@/app/ui/components/total-points-response";
 
 export default function BribeChildHome({
   totalPoints,

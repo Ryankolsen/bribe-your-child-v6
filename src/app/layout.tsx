@@ -3,7 +3,7 @@ import "./globals.css";
 import { NavBar } from "./nav-bar";
 import { getServerSession } from "next-auth";
 import { ReactNode } from "react";
-import SessionProvider from "@/components/session-provider";
+import SessionProvider from "@/app/ui/components/session-provider";
 
 export const metadata: Metadata = {
   title: "Bribe Your Child",

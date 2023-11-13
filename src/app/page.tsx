@@ -1,12 +1,9 @@
-import ClientSide from "@/components/client-side";
-import getTotalPointsServer from "@/app/server-side/page";
+import ClientSide from "@/app/ui/components/client-side";
 
 export default async function Home() {
-  const totalPoints = await getTotalPointsServer();
-  console.log("totalPoints", totalPoints[0].points);
   return (
     <>
-      <ClientSide totalPoints={totalPoints[0].points} />
+      <ClientSide totalPoints={2} />
     </>
   );
 }
