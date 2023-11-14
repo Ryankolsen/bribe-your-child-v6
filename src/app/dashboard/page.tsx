@@ -9,8 +9,10 @@ export default async function Page() {
       <div className="text-2xl font-bold text-black">
         Total Points: {totalPoints}
       </div>
-      <ManagePointsForm />
-      <AddPrizeForm />
+      <div className="flex flex-col max-w-lg m-auto content-center">
+        <ManagePointsForm />
+        <AddPrizeForm />
+      </div>
     </>
   );
 }
