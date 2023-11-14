@@ -20,20 +20,23 @@ export async function getTotalPointsRev() {
 }
 
 export async function updateTotalPointsRev(pointValue: number) {
-  const queryRecord: Record<string, any> = {
-    dev: sql`UPDATE totalpoints_dev
-                 SET Points=${Number(pointValue)}
-                 WHERE uuid = ${UUID};`,
-    prod: sql`UPDATE totalpoints
-                  SET Points=${Number(pointValue)}
-                  WHERE uuid = ${UUID};`,
-  };
-  const query = queryRecord[process.env.ENVIRONMENT as Environment];
-
+  console.log("query", process.env.ENVIRONMENT as Environment);
+  if (!pointValue) return new Error("Point value required");
   try {
-    if (!pointValue) return new Error("Point value required");
-
-    await query;
+    if (process.env.ENVIRONMENT === "prod") {
+      await sql`UPDATE totalpoints
+                      SET Points=${Number(pointValue)}
+                      WHERE uuid = ${UUID};`;
+    }
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+  try {
+    if (process.env.ENVIRONMENT === "dev") {
+      await sql`UPDATE totalpoints_dev
+                      SET Points=${Number(pointValue)}
+                      WHERE uuid = ${UUID};`;
+    }
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
