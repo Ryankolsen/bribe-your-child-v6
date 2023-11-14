@@ -1,5 +1,6 @@
 import { getTotalPointsRev } from "@/app/lib/data";
 import ManagePointsForm from "@/app/dashboard/ManagePointsForm";
+import AddPrizeForm from "@/app/dashboard/ManagePrizeForm";
 
 export default async function Page() {
   const totalPoints = await getTotalPointsRev();
@@ -8,8 +9,8 @@ export default async function Page() {
       <div className="text-2xl font-bold text-black">
         Total Points: {totalPoints}
       </div>
-
       <ManagePointsForm />
+      <AddPrizeForm />
     </>
   );
 }
