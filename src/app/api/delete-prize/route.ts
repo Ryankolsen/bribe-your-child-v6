@@ -21,7 +21,8 @@ export async function DELETE(request: Request) {
     await query;
   } catch (error) {
     console.log("error", error);
-    return NextResponse.json({ message: error }, { status: 500 });
+    return;
+    // NextResponse.json({ error }, { status: 500 });
   }
 
   return NextResponse.json(
