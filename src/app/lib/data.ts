@@ -1,8 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { Environment } from "@/constants/constants";
-import { TotalPoints } from "@/app/lib/definitions";
+import { Prizes, TotalPoints } from "@/app/lib/definitions";
 import { UUID } from "@/app/ui/components/temp-constants";
-import { NextResponse } from "next/server";
 
 export async function getTotalPointsRev() {
   const queryRecord: Record<string, any> = {
@@ -29,7 +28,7 @@ export async function updateTotalPointsRev(pointValue: number) {
                       WHERE uuid = ${UUID};`;
     }
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return { error: error };
   }
   try {
     if (process.env.ENVIRONMENT === "dev") {
@@ -38,6 +37,49 @@ export async function updateTotalPointsRev(pointValue: number) {
                       WHERE uuid = ${UUID};`;
     }
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return { error: error };
   }
+}
+
+export async function getPrizesFromDB() {
+  try {
+    if (process.env.ENVIRONMENT === "dev") {
+      const { rows } = await sql`SELECT *
+                                     FROM prizes_dev
+                                     WHERE user_uuid = ${UUID}`;
+      return rows as Prizes | undefined;
+    }
+  } catch (error) {
+    return [
+      {
+        uuid: "",
+        point_value: undefined,
+        description: "",
+        imageData: undefined,
+        error: error,
+      },
+    ];
+  }
+  try {
+    if (process.env.ENVIRONMENT === "prod") {
+      const { rows } = await sql`SELECT *
+                                     FROM prizes_dev
+                                     WHERE user_uuid = ${UUID}`;
+      return rows as Prizes | undefined;
+    }
+  } catch (error) {
+    return [
+      {
+        uuid: "",
+        point_value: undefined,
+        description: "",
+        imageData: undefined,
+        error: error,
+      },
+    ];
+  }
+}
+
+export async function cashInPointsFromDB() {
+  console.log("TEST");
 }
