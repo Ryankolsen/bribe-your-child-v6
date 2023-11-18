@@ -10,16 +10,27 @@ export default function DisplayPrizesForm({
 }: {
   totalPrizes: Prizes;
 }) {
-  async function cashInPoints() {
-    await cashInPointsFromDB();
+  async function cashInPoints({
+    pointValue,
+  }: {
+    pointValue: number | undefined;
+  }) {
+    await cashInPointsFromDB({ pointValue: pointValue });
     console.log("cash in points");
+    //Need to do maths to figure out the new total points
   }
 
   console.log("totalPrizes: ", totalPrizes);
 
   return (
     <div className="pt-20">
-      <button onClick={cashInPoints}>Click me</button>
+      <button
+        onClick={() => {
+          console.log("testing");
+        }}
+      >
+        Click me
+      </button>
       <div className="flex flex-wrap justify-center gap-4 pt-6">
         {totalPrizes &&
           totalPrizes.map((prize) => {
@@ -42,7 +53,12 @@ export default function DisplayPrizesForm({
                     Point Value: {prize.point_value}
                   </p>
                   <div className="card-actions justify-end">
-                    <button onClick={cashInPoints} className="btn btn-primary">
+                    <button
+                      onClick={() =>
+                        cashInPoints({ pointValue: prize.point_value })
+                      }
+                      className="btn btn-primary"
+                    >
                       Cash In Points
                     </button>
                     <button className="btn btn-primary">DELETE</button>
