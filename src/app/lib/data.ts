@@ -80,6 +80,15 @@ export async function getPrizesFromDB() {
   }
 }
 
-export async function cashInPointsFromDB() {
-  console.log("TEST");
+export async function cashInPointsFromDB({
+  pointValue,
+}: {
+  pointValue: number | undefined;
+}) {
+  pointValue && (await updateTotalPointsRev(pointValue));
+  console.log("points updated");
 }
+
+export async function deletePrizeFromDB() {}
+
+console.log("Delete");
