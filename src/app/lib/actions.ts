@@ -2,7 +2,6 @@
 
 import { getTotalPointsRev } from "@/app/lib/data";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { sql } from "@vercel/postgres";
 import { UUID } from "@/app/ui/components/temp-constants";
 import { NextResponse } from "next/server";
@@ -17,6 +16,7 @@ export async function updateTotalPointsRev(pointValue: number) {
       await sql`UPDATE totalpoints
                       SET Points=${Number(pointValue)}
                       WHERE uuid = ${UUID};`;
+      revalidatePath("/dashboard");
     }
   } catch (error) {
     return { error: error };
@@ -26,6 +26,7 @@ export async function updateTotalPointsRev(pointValue: number) {
       await sql`UPDATE totalpoints_dev
                       SET Points=${Number(pointValue)}
                       WHERE uuid = ${UUID};`;
+      revalidatePath("/dashboard");
     }
   } catch (error) {
     return { error: error };
@@ -42,7 +43,6 @@ export async function UpdatePoints(formData: FormData) {
   await updateTotalPointsRev(newTotalPoints);
 
   revalidatePath("/dashboard");
-  redirect("/dashboard");
 
   console.log("points to be update to: ", newTotalPoints);
 }
@@ -59,6 +59,7 @@ export async function addPrize(formData: FormData) {
           pointValue
         )}, ${prizeName.toString()}, ${UUID})`;
       }
+      revalidatePath("/dashboard");
     } catch (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
@@ -69,6 +70,7 @@ export async function addPrize(formData: FormData) {
           pointValue
         )}, ${prizeName.toString()}, ${UUID})`;
       }
+      revalidatePath("/dashboard");
     } catch (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
