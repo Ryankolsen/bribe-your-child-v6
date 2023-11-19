@@ -18,29 +18,6 @@ export async function getTotalPointsRev() {
   return await rows[0].points;
 }
 
-export async function updateTotalPointsRev(pointValue: number) {
-  console.log("query", process.env.ENVIRONMENT as Environment);
-  if (!pointValue) return new Error("Point value required");
-  try {
-    if (process.env.ENVIRONMENT === "prod") {
-      await sql`UPDATE totalpoints
-                      SET Points=${Number(pointValue)}
-                      WHERE uuid = ${UUID};`;
-    }
-  } catch (error) {
-    return { error: error };
-  }
-  try {
-    if (process.env.ENVIRONMENT === "dev") {
-      await sql`UPDATE totalpoints_dev
-                      SET Points=${Number(pointValue)}
-                      WHERE uuid = ${UUID};`;
-    }
-  } catch (error) {
-    return { error: error };
-  }
-}
-
 export async function getPrizesFromDB() {
   try {
     if (process.env.ENVIRONMENT === "dev") {
@@ -79,16 +56,3 @@ export async function getPrizesFromDB() {
     ];
   }
 }
-
-export async function cashInPointsFromDB({
-  pointValue,
-}: {
-  pointValue: number | undefined;
-}) {
-  pointValue && (await updateTotalPointsRev(pointValue));
-  console.log("points updated");
-}
-
-export async function deletePrizeFromDB() {}
-
-console.log("Delete");

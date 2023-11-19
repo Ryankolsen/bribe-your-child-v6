@@ -1,11 +1,11 @@
-import { updatePrizes } from "@/app/lib/actions";
+import { addPrize } from "@/app/lib/actions";
 
 export default function AddPrizeForm() {
   return (
     <div className="pt-20">
       <form
         className="flex flex-col gap-4 w-full p-4 mt-5 bg-base-100 rounded-lg shadow-lg border-2 border-gray-950 "
-        action={updatePrizes}
+        action={addPrize}
       >
         <div className="flex flex-col  ">
           <label className="text-left">

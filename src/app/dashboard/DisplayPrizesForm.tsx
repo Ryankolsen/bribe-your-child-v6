@@ -1,9 +1,9 @@
 "use client";
 
-import { cashInPointsFromDB } from "@/app/lib/data";
 import { Prizes } from "@/app/lib/definitions";
 import placeholderImage from "../../../public/alicorn.png";
 import Image from "next/image";
+import { cashInPointsFromDB } from "@/app/lib/actions";
 
 export default function DisplayPrizesForm({
   totalPrizes,
