@@ -8,7 +8,7 @@ export default async function Home() {
   const totalPrizes = await getPrizesFromDB();
   return (
     <>
-      <div className="text-2xl font-bold text-black">
+      <div className="text-2xl font-bold text-black text-center p-4">
         Total Points: {totalPoints}
       </div>
       <div className="flex flex-col max-w-lg m-auto content-center">
