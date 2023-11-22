@@ -20,8 +20,6 @@ export default function DisplayPrizesForm({
     //Need to do maths to figure out the new total points
   }
 
-  console.log("totalPrizes: ", totalPrizes);
-
   return (
     <div className="pt-20">
       <div className="flex flex-wrap justify-center gap-4 pt-6">

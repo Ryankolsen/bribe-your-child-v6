@@ -19,7 +19,7 @@ export default function AddPrizeForm() {
             Pont Value
             <input
               name="pointValue"
-              className="border-2 border-gray-300 m-4 p-2 rounded-lg "
+              className="border-2 border-gray-300 m-4 ml-6 p-2 rounded-lg "
             />
           </label>
         </div>
