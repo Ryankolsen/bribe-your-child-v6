@@ -19,13 +19,13 @@ export default async function ManagePointsForm() {
           <label className="text-left">
             Points Lost:
             <input
-              className="border-2 border-gray-300 m-4 p-2 rounded-lg w-20 "
+              className="border-2 border-gray-300 m-4 p-2 rounded-lg ml-8 w-20"
               type="number"
               name="pointsLost"
             />
           </label>
 
-          <button>Update Points</button>
+          <button className="btn btn-outline w-44 m-auto">Update Points</button>
         </form>
       </div>
     </>
