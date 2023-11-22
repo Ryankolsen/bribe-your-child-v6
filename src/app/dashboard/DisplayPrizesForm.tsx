@@ -24,13 +24,6 @@ export default function DisplayPrizesForm({
 
   return (
     <div className="pt-20">
-      <button
-        onClick={() => {
-          console.log("testing");
-        }}
-      >
-        Click me
-      </button>
       <div className="flex flex-wrap justify-center gap-4 pt-6">
         {totalPrizes &&
           totalPrizes.map((prize) => {
