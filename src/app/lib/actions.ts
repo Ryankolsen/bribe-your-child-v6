@@ -82,8 +82,13 @@ export async function cashInPointsFromDB({
 }: {
   pointValue: number | undefined;
 }) {
-  pointValue && (await updateTotalPointsRev(pointValue));
-  console.log("points updated");
+  const totalPoints = await getTotalPointsRev();
+  if (pointValue) {
+    const newTotalPoints = totalPoints - pointValue;
+
+    await updateTotalPointsRev(newTotalPoints);
+    console.log("points updated");
+  }
 }
 
 export async function deletePrizeFromDB({ uuid }: { uuid: string }) {

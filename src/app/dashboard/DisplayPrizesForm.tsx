@@ -12,12 +12,16 @@ export default function DisplayPrizesForm({
 }) {
   async function cashInPoints({
     pointValue,
+    uuid,
   }: {
     pointValue: number | undefined;
+    uuid: string | undefined;
   }) {
-    await cashInPointsFromDB({ pointValue: pointValue });
-    console.log("cash in points");
-    //Need to do maths to figure out the new total points
+    if (pointValue && uuid) {
+      await cashInPointsFromDB({ pointValue: pointValue });
+      await deletePrizeFromDB({ uuid: uuid });
+      console.log("cash in points");
+    }
   }
 
   return (
@@ -46,7 +50,10 @@ export default function DisplayPrizesForm({
                   <div className="card-actions justify-end">
                     <button
                       onClick={() =>
-                        cashInPoints({ pointValue: prize.point_value })
+                        cashInPoints({
+                          pointValue: prize.point_value,
+                          uuid: prize.uuid,
+                        })
                       }
                       className="btn btn-primary"
                     >
