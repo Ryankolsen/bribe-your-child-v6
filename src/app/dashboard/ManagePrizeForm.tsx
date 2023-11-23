@@ -23,7 +23,7 @@ export default function AddPrizeForm() {
             />
           </label>
         </div>
-        <button type="submit" className="btn btn-outline w-44 ml-28">
+        <button type="submit" className="btn btn-outline w-44 m-auto">
           Submit
         </button>
       </form>
