@@ -13,7 +13,6 @@ export async function getTotalPointsRev() {
   const query = queryRecord[process.env.ENVIRONMENT as Environment];
 
   const { rows } = await query;
-  console.log("rows", rows);
 
   return await rows[0].points;
 }
@@ -21,10 +20,10 @@ export async function getTotalPointsRev() {
 export async function getPrizesFromDB() {
   try {
     if (process.env.ENVIRONMENT === "dev") {
-      const { rows } = await sql`SELECT *
-                                     FROM prizes_dev
-                                     WHERE user_uuid = ${UUID}`;
-      return rows as Prizes | undefined;
+      const { rows } = await sql<Prizes[]>`SELECT *
+                                               FROM prizes_dev
+                                               WHERE user_uuid = ${UUID}`;
+      return rows;
     }
   } catch (error) {
     return [
@@ -39,10 +38,10 @@ export async function getPrizesFromDB() {
   }
   try {
     if (process.env.ENVIRONMENT === "prod") {
-      const { rows } = await sql`SELECT *
-                                     FROM prizes_dev
-                                     WHERE user_uuid = ${UUID}`;
-      return rows as Prizes | undefined;
+      const { rows } = await sql<Prizes[]>`SELECT *
+                                               FROM prizes_dev
+                                               WHERE user_uuid = ${UUID}`;
+      return rows;
     }
   } catch (error) {
     return [
