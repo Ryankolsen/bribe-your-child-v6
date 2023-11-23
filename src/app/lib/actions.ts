@@ -86,6 +86,20 @@ export async function cashInPointsFromDB({
   console.log("points updated");
 }
 
-export async function deletePrizeFromDB() {}
-
-console.log("Delete");
+export async function deletePrizeFromDB({ uuid }: { uuid: string }) {
+  try {
+    if (process.env.ENVIRONMENT === "dev") {
+      await sql`DELETE
+                      FROM prizes_dev
+                      WHERE uuid = ${uuid}`;
+    }
+    if (process.env.ENVIRONMENT === "prod") {
+      await sql`DELETE
+                      FROM prizes
+                      WHERE uuid = ${uuid}`;
+    }
+    revalidatePath("/dashboard");
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}

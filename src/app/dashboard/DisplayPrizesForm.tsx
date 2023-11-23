@@ -3,7 +3,7 @@
 import { Prizes } from "@/app/lib/definitions";
 import placeholderImage from "../../../public/alicorn.png";
 import Image from "next/image";
-import { cashInPointsFromDB } from "@/app/lib/actions";
+import { cashInPointsFromDB, deletePrizeFromDB } from "@/app/lib/actions";
 
 export default function DisplayPrizesForm({
   totalPrizes,
@@ -52,7 +52,12 @@ export default function DisplayPrizesForm({
                     >
                       Cash In Points
                     </button>
-                    <button className="btn btn-primary">DELETE</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => deletePrizeFromDB({ uuid: prize.uuid })}
+                    >
+                      DELETE
+                    </button>
                   </div>
                 </div>
               </div>
