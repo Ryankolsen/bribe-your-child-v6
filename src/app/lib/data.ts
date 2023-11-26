@@ -10,11 +10,22 @@ export async function getTotalPointsRev() {
     prod: sql<TotalPoints>`SELECT points
                                FROM totalPoints`,
   };
-  const query = queryRecord[process.env.ENVIRONMENT as Environment];
 
-  const { rows } = await query;
+  try {
+    const query = queryRecord[process.env.ENVIRONMENT as Environment];
 
-  return await rows[0].points;
+    const { rows } = await query;
+
+    return {
+      success: true,
+      data: (await rows[0].points) as TotalPoints,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: "An error occurred while fetching total points.",
+    };
+  }
 }
 
 export async function getPrizesFromDB() {
@@ -32,7 +43,7 @@ export async function getPrizesFromDB() {
         point_value: undefined,
         description: "",
         imageData: undefined,
-        error: error,
+        error: "error",
       },
     ];
   }

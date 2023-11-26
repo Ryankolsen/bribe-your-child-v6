@@ -19,7 +19,7 @@ export async function updateTotalPointsRev(pointValue: number) {
       revalidatePath("/dashboard");
     }
   } catch (error) {
-    return { error: error };
+    return { totalPoints: 0, error: error };
   }
   try {
     if (process.env.ENVIRONMENT === "dev") {
@@ -29,7 +29,7 @@ export async function updateTotalPointsRev(pointValue: number) {
       revalidatePath("/dashboard");
     }
   } catch (error) {
-    return { error: error };
+    return { totalPoints: 0, error: error };
   }
 }
 
@@ -39,7 +39,7 @@ export async function UpdatePoints(formData: FormData) {
   const totalPoints = await getTotalPointsRev();
 
   const newTotalPoints =
-    totalPoints + Number(pointsEarned) - Number(pointsLost);
+    Number(totalPoints) + Number(pointsEarned) - Number(pointsLost);
   await updateTotalPointsRev(newTotalPoints);
 
   revalidatePath("/dashboard");
@@ -84,7 +84,7 @@ export async function cashInPointsFromDB({
 }) {
   const totalPoints = await getTotalPointsRev();
   if (pointValue) {
-    const newTotalPoints = totalPoints - pointValue;
+    const newTotalPoints = Number(totalPoints) - pointValue;
 
     await updateTotalPointsRev(newTotalPoints);
     console.log("points updated");

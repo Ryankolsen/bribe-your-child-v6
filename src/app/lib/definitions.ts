@@ -1,5 +1,6 @@
 export type TotalPoints = {
   points: number;
+  error?: string | unknown;
 }[];
 
 export type Prizes =
