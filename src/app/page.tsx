@@ -4,9 +4,10 @@ import AddPrizeForm from "@/app/dashboard/ManagePrizeForm";
 import DisplayPrizesForm from "@/app/dashboard/DisplayPrizesForm";
 
 export default async function Home() {
-  const totalPointsResponse = await getTotalPointsRev();
-  const totalPrizesDb = await getPrizesFromDB();
-  console.log("totalpoints", totalPointsResponse);
+  const [totalPointsResponse, totalPrizesDb] = await Promise.all([
+    getTotalPointsRev(),
+    getPrizesFromDB(),
+  ]);
   return (
     <>
       <div className="text-2xl font-bold text-black text-center p-4">

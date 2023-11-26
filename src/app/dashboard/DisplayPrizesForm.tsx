@@ -1,14 +1,14 @@
 "use client";
 
-import { Prizes } from "@/app/lib/definitions";
+import { TotalPrizesDb } from "@/app/lib/definitions";
 import placeholderImage from "../../../public/alicorn.png";
 import Image from "next/image";
 import { cashInPointsFromDB, deletePrizeFromDB } from "@/app/lib/actions";
 
 export default function DisplayPrizesForm({
-  totalPrizes,
+  totalPrizesDb,
 }: {
-  totalPrizes: Prizes;
+  totalPrizesDb: TotalPrizesDb;
 }) {
   async function cashInPoints({
     pointValue,
@@ -27,8 +27,10 @@ export default function DisplayPrizesForm({
   return (
     <div className="pt-20">
       <div className="flex flex-wrap justify-center gap-4 pt-6">
-        {totalPrizes &&
-          totalPrizes.map((prize) => {
+        {!totalPrizesDb.success && <div>ERROR: {totalPrizesDb.error}</div>}
+        {totalPrizesDb.success &&
+          totalPrizesDb.data &&
+          totalPrizesDb.data.map((prize) => {
             return (
               <div
                 key={prize.uuid}

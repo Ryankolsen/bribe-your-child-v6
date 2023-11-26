@@ -18,7 +18,7 @@ export default async function Page() {
       <div className="flex flex-col max-w-lg m-auto content-center">
         <ManagePointsForm />
         <AddPrizeForm />
-        <DisplayPrizesForm totalPrizes={totalPrizes} />
+        <DisplayPrizesForm totalPrizesDb={totalPrizes} />
       </div>
     </>
   );

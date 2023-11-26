@@ -1,14 +1,20 @@
 import { sql } from "@vercel/postgres";
 import { Environment } from "@/constants/constants";
-import { Prizes, TotalPoints } from "@/app/lib/definitions";
+import { TotalPoints, TotalPrizesDb } from "@/app/lib/definitions";
 import { UUID } from "@/app/ui/components/temp-constants";
+
+type TotalPointsDb = {
+  success: boolean;
+  data?: TotalPoints;
+  error?: string;
+};
 
 export async function getTotalPointsRev() {
   const queryRecord: Record<string, any> = {
-    dev: sql<TotalPoints>`SELECT points
-                              FROM totalPoints_dev`,
-    prod: sql<TotalPoints>`SELECT points
-                               FROM totalPoints`,
+    dev: sql<TotalPointsDb>`SELECT points
+                                FROM totalPoints_dev`,
+    prod: sql<TotalPointsDb>`SELECT points
+                                 FROM totalPoints`,
   };
 
   try {
@@ -18,9 +24,10 @@ export async function getTotalPointsRev() {
 
     return {
       success: true,
-      data: (await rows[0].points) as TotalPoints,
+      data: await rows[0].points,
     };
   } catch (error) {
+    console.log("NEW ERROR", error as Error);
     return {
       success: false,
       error: "An error occurred while fetching total points.",
@@ -31,38 +38,28 @@ export async function getTotalPointsRev() {
 export async function getPrizesFromDB() {
   try {
     if (process.env.ENVIRONMENT === "dev") {
-      const { rows } = await sql<Prizes[]>`SELECT *
-                                               FROM prizes_dev
-                                               WHERE user_uuid = ${UUID}`;
-      return rows;
+      const { rows } = await sql<TotalPrizesDb>`SELECT *
+                                                    FROM prizes_dev
+                                                    WHERE user_uuid = ${UUID}`;
+      return { success: true, data: rows };
     }
   } catch (error) {
-    return [
-      {
-        uuid: "",
-        point_value: undefined,
-        description: "",
-        imageData: undefined,
-        error: "error",
-      },
-    ];
+    return {
+      success: false,
+      error: "An error occurred while fetching total prizes",
+    };
   }
   try {
     if (process.env.ENVIRONMENT === "prod") {
-      const { rows } = await sql<Prizes[]>`SELECT *
-                                               FROM prizes_dev
-                                               WHERE user_uuid = ${UUID}`;
-      return rows;
+      const { rows } = await sql<TotalPrizesDb>`SELECT *
+                                                    FROM prizes_dev
+                                                    WHERE user_uuid = ${UUID}`;
+      return { success: true, data: rows };
     }
   } catch (error) {
-    return [
-      {
-        uuid: "",
-        point_value: undefined,
-        description: "",
-        imageData: undefined,
-        error: error,
-      },
-    ];
+    return {
+      success: false,
+      error: "An error occurred while fetching total prizes",
+    };
   }
 }
