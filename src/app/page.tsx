@@ -2,12 +2,11 @@ import { getPrizesFromDB, getTotalPointsRev } from "@/app/lib/data";
 import ManagePointsForm from "@/app/dashboard/ManagePointsForm";
 import AddPrizeForm from "@/app/dashboard/ManagePrizeForm";
 import DisplayPrizesForm from "@/app/dashboard/DisplayPrizesForm";
+import { TotalPrizesDb } from "@/app/lib/definitions";
 
 export default async function Home() {
-  const [totalPointsResponse, totalPrizesDb] = await Promise.all([
-    getTotalPointsRev(),
-    getPrizesFromDB(),
-  ]);
+  const totalPointsResponse = await getTotalPointsRev();
+  const totalPrizesDb: TotalPrizesDb = await getPrizesFromDB();
   return (
     <>
       <div className="text-2xl font-bold text-black text-center p-4">

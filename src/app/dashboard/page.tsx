@@ -13,7 +13,7 @@ export default async function Page() {
   return (
     <>
       <div className="text-2xl font-bold text-black">
-        Total Points: {totalPoints}
+        Total Points: {totalPoints.data}
       </div>
       <div className="flex flex-col max-w-lg m-auto content-center">
         <ManagePointsForm />
