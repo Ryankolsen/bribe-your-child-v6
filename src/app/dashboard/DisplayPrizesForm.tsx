@@ -27,8 +27,8 @@ export default function DisplayPrizesForm({
   return (
     <div className="pt-20">
       <div className="flex flex-wrap justify-center gap-4 pt-6">
-        {!totalPrizesDb.success && <div>ERROR: {totalPrizesDb.error}</div>}
-        {totalPrizesDb.success &&
+        {!totalPrizesDb?.success && <div>ERROR: {totalPrizesDb?.error}</div>}
+        {totalPrizesDb?.success &&
           totalPrizesDb.data &&
           totalPrizesDb.data.map((prize) => {
             return (
