@@ -9,8 +9,10 @@ export type Prize = {
   imageData?: any | undefined;
 };
 
-export type TotalPrizesDb = {
-  success: boolean;
-  data?: Prize[];
-  error?: string;
-};
+export type TotalPrizesDb =
+  | {
+      success: boolean;
+      data?: Prize[];
+      error?: string;
+    }
+  | undefined;

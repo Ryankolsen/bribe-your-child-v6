@@ -4,10 +4,11 @@ import ManagePointsForm from "@/app/dashboard/ManagePointsForm";
 import AddPrizeForm from "@/app/dashboard/ManagePrizeForm";
 import DisplayPrizesForm from "@/app/dashboard/DisplayPrizesForm";
 import { useSession } from "next-auth/react";
+import { TotalPrizesDb } from "@/app/lib/definitions";
 
 export default async function Page() {
   const totalPoints = await getTotalPointsRev();
-  const totalPrizes = await getPrizesFromDB();
+  const totalPrizes: TotalPrizesDb = await getPrizesFromDB();
   const { data } = useSession();
 
   return (
