@@ -1,7 +1,7 @@
 "use client";
 
 import { TotalPrizesDb } from "@/app/lib/definitions";
-import placeholderImage from "../../../../public/alicorn.png";
+import placeholderImage from "../../../public/alicorn.png";
 import Image from "next/image";
 import { cashInPointsFromDB, deletePrizeFromDB } from "@/app/lib/actions";
 

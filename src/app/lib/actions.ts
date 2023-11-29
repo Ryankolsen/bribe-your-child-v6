@@ -3,9 +3,10 @@
 import { getTotalPointsRev } from "@/app/lib/data";
 import { revalidatePath } from "next/cache";
 import { sql } from "@vercel/postgres";
+import { UUID } from "@/app/ui/components/temp-constants";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { Environment, UUID } from "@/constants/constants";
+import { Environment } from "@/constants/constants";
 
 export async function updateTotalPointsRev(pointValue: number) {
   console.log("query", process.env.ENVIRONMENT as Environment);

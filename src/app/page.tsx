@@ -1,7 +1,7 @@
 import { getPrizesFromDB, getTotalPointsRev } from "@/app/lib/data";
-import ManagePointsForm from "@/app/ui/components/ManagePointsForm";
-import AddPrizeForm from "@/app/ui/components/ManagePrizeForm";
-import DisplayPrizesForm from "@/app/ui/components/DisplayPrizesForm";
+import ManagePointsForm from "@/app/dashboard/ManagePointsForm";
+import AddPrizeForm from "@/app/dashboard/ManagePrizeForm";
+import DisplayPrizesForm from "@/app/dashboard/DisplayPrizesForm";
 import { TotalPrizesDb } from "@/app/lib/definitions";
 
 export default async function Home() {
