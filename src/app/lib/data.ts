@@ -1,7 +1,6 @@
 import { sql } from "@vercel/postgres";
-import { Environment } from "@/constants/constants";
+import { Environment, UUID } from "@/constants/constants";
 import { Prize, TotalPoints } from "@/app/lib/definitions";
-import { UUID } from "@/app/ui/components/temp-constants";
 
 type TotalPointsDb = {
   success: boolean;
