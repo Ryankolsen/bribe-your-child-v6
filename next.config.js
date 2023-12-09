@@ -2,8 +2,8 @@
 const nextConfig = {
   experimental: {
     serverActions: true,
+    forceSwcTransforms: true,
   },
-  setupFilesAfterEnv: ["<rootDir>/setupTests.js"],
 };
 
 module.exports = nextConfig;

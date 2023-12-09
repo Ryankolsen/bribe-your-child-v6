@@ -17,21 +17,21 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "testEnvironment": "jsdom",
     "types": [
       "jest",
       "testing-library__jest-dom"
-    ],
-    "plugins": [
-      {
-        "name": "next"
-      }
     ],
     "paths": {
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
