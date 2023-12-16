@@ -1,11 +1,11 @@
 "use server";
 
-import { getTotalPointsRev } from "@/app/lib/data";
+import { getTotalPointsRev } from "../lib/data";
 import { revalidatePath } from "next/cache";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { Environment, UUID } from "@/constants/constants";
+import { Environment, UUID } from "../../constants/constants";
 
 export async function updateTotalPointsRev(pointValue: number) {
   console.log("query", process.env.ENVIRONMENT as Environment);

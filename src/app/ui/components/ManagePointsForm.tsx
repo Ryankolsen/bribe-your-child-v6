@@ -1,4 +1,4 @@
-import { UpdatePoints } from "@/app/lib/actions";
+import { UpdatePoints } from "../../lib/actions";
 
 export default async function ManagePointsForm() {
   return (

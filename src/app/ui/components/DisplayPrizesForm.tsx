@@ -3,7 +3,7 @@
 import { TotalPrizesDb } from "@/app/lib/definitions";
 import placeholderImage from "../../../../public/alicorn.png";
 import Image from "next/image";
-import { cashInPointsFromDB, deletePrizeFromDB } from "@/app/lib/actions";
+import { cashInPointsFromDB, deletePrizeFromDB } from "../../lib/actions";
 
 export default function DisplayPrizesForm({
   totalPrizesDb,

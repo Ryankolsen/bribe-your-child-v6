@@ -1,4 +1,4 @@
-import { addPrize } from "@/app/lib/actions";
+import { addPrize } from "../../lib/actions";
 
 export default function AddPrizeForm() {
   return (
