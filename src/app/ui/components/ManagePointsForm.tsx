@@ -1,6 +1,11 @@
-import { UpdatePoints } from "../../lib/actions";
+"use client";
+import { UpdatePoints, updatePointsAddOnePoint } from "../../lib/actions";
 
 export default async function ManagePointsForm() {
+  function addOnePoint() {
+    updatePointsAddOnePoint();
+  }
+
   return (
     <>
       <div className="flex max-w-lg m-auto content-center">
@@ -24,8 +29,10 @@ export default async function ManagePointsForm() {
               name="pointsLost"
             />
           </label>
-
           <button className="btn btn-outline w-44 m-auto">Update Points</button>
+          <button className="btn btn-outline w-44 m-auto" onClick={addOnePoint}>
+            Add One Point
+          </button>
         </form>
       </div>
     </>

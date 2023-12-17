@@ -32,6 +32,13 @@ export async function updateTotalPointsRev(pointValue: number) {
   }
 }
 
+export async function updatePointsAddOnePoint() {
+  const data = await getTotalPointsRev();
+  const totalPoints = data.data;
+  const newTotalPoints = Number(totalPoints) + 1;
+  await updateTotalPointsRev(newTotalPoints);
+}
+
 export async function UpdatePoints(formData: FormData) {
   const pointsEarned = formData.get("pointsEarned");
   const pointsLost = formData.get("pointsLost");
