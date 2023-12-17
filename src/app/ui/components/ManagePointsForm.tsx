@@ -1,9 +1,9 @@
 "use client";
 import { UpdatePoints, updatePointsAddOnePoint } from "../../lib/actions";
 
-export default async function ManagePointsForm() {
-  function addOnePoint() {
-    updatePointsAddOnePoint();
+export default function ManagePointsForm() {
+  async function addOnePoint() {
+    await updatePointsAddOnePoint();
   }
 
   return (
