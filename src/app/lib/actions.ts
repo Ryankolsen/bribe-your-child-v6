@@ -120,12 +120,14 @@ export async function testAi() {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
+
   console.log("starting");
-  const chatCompletion = await openai.chat.completions.create({
-    messages: [{ role: "user", content: "What is a prime number?" }],
-    model: "gpt-3.5-turbo",
+  const image = await openai.images.generate({
+    model: "dall-e-3",
+    prompt: "A cute baby sea otter",
   });
-  console.log(chatCompletion.choices[0].message);
   console.log("ending");
-  return chatCompletion;
+
+  console.log(image.data[0].url);
+  return image.data[0].url;
 }
