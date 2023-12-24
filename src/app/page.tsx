@@ -3,7 +3,6 @@ import ManagePointsForm from "./ui/components/ManagePointsForm";
 import AddPrizeForm from "./ui/components/ManagePrizeForm";
 import DisplayPrizesForm from "./ui/components/DisplayPrizesForm";
 import { TotalPrizesDb } from "./lib/definitions";
-import GetApiResponse from "@/app/ui/components/GetAiResponse";
 
 export default async function Home() {
   const totalPointsResponse = await getTotalPointsRev();
@@ -20,7 +19,6 @@ export default async function Home() {
       </div>
       <div className="flex flex-col max-w-lg m-auto content-center">
         <ManagePointsForm />
-        <GetApiResponse />
         <AddPrizeForm />
         {totalPrizesDb && <DisplayPrizesForm totalPrizesDb={totalPrizesDb} />}
       </div>
