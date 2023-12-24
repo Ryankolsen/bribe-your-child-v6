@@ -6,6 +6,7 @@ import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { Environment, UUID } from "../../constants/constants";
+import OpenAI from "openai";
 
 export async function updateTotalPointsRev(pointValue: number) {
   console.log("query", process.env.ENVIRONMENT as Environment);
@@ -113,4 +114,18 @@ export async function deletePrizeFromDB({ uuid }: { uuid: string }) {
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
+}
+
+export async function testAi() {
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  console.log("starting");
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [{ role: "user", content: "What is a prime number?" }],
+    model: "gpt-3.5-turbo",
+  });
+  console.log(chatCompletion.choices[0].message);
+  console.log("ending");
+  return chatCompletion;
 }
