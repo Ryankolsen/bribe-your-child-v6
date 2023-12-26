@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Environment, UUID } from "../../constants/constants";
+import { UUID } from "../../constants/constants";
 import { Prize, TotalPoints } from "../lib/definitions";
 
 type TotalPointsDb = {
@@ -8,22 +8,27 @@ type TotalPointsDb = {
   error?: string;
 };
 
+type totalPoints = {
+  points: number[];
+};
+
 export async function getTotalPointsRev() {
   const queryRecord: Record<string, any> = {
     dev: sql<TotalPointsDb>`SELECT points
-                                FROM totalPoints_dev`,
+                                FROM totalPoints_dev
+                                WHERE uuid = UUID`,
     prod: sql<TotalPointsDb>`SELECT points
                                  FROM totalPoints`,
   };
 
   try {
-    const query = queryRecord[process.env.ENVIRONMENT as Environment];
-
-    const { rows } = await query;
+    const { rows } = await sql<totalPoints>`SELECT points
+                                              FROM totalPoints_dev
+                                              WHERE Uuid = UUID`;
 
     return {
       success: true,
-      data: await rows[0].points,
+      data: rows[0].points,
     };
   } catch (error) {
     console.log("NEW ERROR", error as Error);
