@@ -15,7 +15,7 @@ export async function updateTotalPointsRev(pointValue: number) {
     if (process.env.ENVIRONMENT === "prod") {
       await sql`UPDATE totalpoints
                       SET Points=${Number(pointValue)}
-                      WHERE uuid = ${UUID};`;
+                      WHERE uu id = ${UUID};`;
       revalidatePath("/dashboard");
     }
   } catch (error) {
