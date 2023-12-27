@@ -20,16 +20,35 @@ export async function getTotalPointsRev() {
     prod: sql<TotalPointsDb>`SELECT points
                                  FROM totalPoints`,
   };
-
   try {
-    const { rows } = await sql<totalPoints>`SELECT points
-                                              FROM totalPoints_dev
-                                              WHERE Uuid = UUID`;
+    if (process.env.ENVIRONMENT_NON_DB === "dev") {
+      const { rows } = await sql<totalPoints>`SELECT points
+                                                  FROM totalPoints_dev
+                                                  WHERE Uuid = UUID`;
 
+      return {
+        success: true,
+        data: rows[0].points,
+      };
+    }
+  } catch (error) {
+    console.log("NEW ERROR", error as Error);
     return {
-      success: true,
-      data: rows[0].points,
+      success: false,
+      error: "An error occurred while fetching total points.",
     };
+  }
+  try {
+    if (process.env.ENVIRONMENT_NON_DB === "prod") {
+      const { rows } = await sql<totalPoints>`SELECT points
+                                                  FROM totalPoints
+                                                  WHERE Uuid = UUID`;
+
+      return {
+        success: true,
+        data: rows[0].points,
+      };
+    }
   } catch (error) {
     console.log("NEW ERROR", error as Error);
     return {
@@ -41,10 +60,11 @@ export async function getTotalPointsRev() {
 
 export async function getPrizesFromDB() {
   try {
-    if (process.env.ENVIRONMENT === "dev") {
+    if (process.env.ENVIRONMENT_NON_DB === "dev") {
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes_dev
-                                            WHERE user_uuid = ${UUID}`;
+                                            WHERE user_uuid = '${UUID}'`;
+      console.log(rows);
       return { success: true, data: rows };
     }
   } catch (error) {
@@ -54,9 +74,9 @@ export async function getPrizesFromDB() {
     };
   }
   try {
-    if (process.env.ENVIRONMENT === "prod") {
+    if (process.env.ENVIRONMENT_NON_DB === "prod") {
       const { rows } = await sql<Prize>`SELECT *
-                                            FROM prizes_dev
+                                            FROM prizes
                                             WHERE user_uuid = ${UUID}`;
       return { success: true, data: rows };
     }
