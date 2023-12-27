@@ -64,7 +64,6 @@ export async function getPrizesFromDB() {
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes_dev
                                             WHERE user_uuid = '${UUID}'`;
-      console.log(rows);
       return { success: true, data: rows };
     }
   } catch (error) {
