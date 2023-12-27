@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
-import { UUID } from "../../constants/constants";
 import { Prize, TotalPoints } from "../lib/definitions";
+import { UUID } from "@/constants/constants";
 
 type TotalPointsDb = {
   success: boolean;
@@ -13,19 +13,13 @@ type totalPoints = {
 };
 
 export async function getTotalPointsRev() {
-  const queryRecord: Record<string, any> = {
-    dev: sql<TotalPointsDb>`SELECT points
-                                FROM totalPoints_dev
-                                WHERE uuid = UUID`,
-    prod: sql<TotalPointsDb>`SELECT points
-                                 FROM totalPoints`,
-  };
   try {
     if (process.env.ENVIRONMENT_NON_DB === "dev") {
-      const { rows } = await sql<totalPoints>`SELECT points
-                                                  FROM totalPoints_dev
-                                                  WHERE Uuid = UUID`;
+      const result = await sql`SELECT points
+                                     FROM totalPoints
+                                     WHERE Uuid = ${UUID}`;
 
+      const { rows } = result;
       return {
         success: true,
         data: rows[0].points,
@@ -42,7 +36,7 @@ export async function getTotalPointsRev() {
     if (process.env.ENVIRONMENT_NON_DB === "prod") {
       const { rows } = await sql<totalPoints>`SELECT points
                                                   FROM totalPoints
-                                                  WHERE Uuid = UUID`;
+                                                  WHERE Uuid = ${UUID}`;
 
       return {
         success: true,
@@ -63,7 +57,8 @@ export async function getPrizesFromDB() {
     if (process.env.ENVIRONMENT_NON_DB === "dev") {
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes_dev
-                                            WHERE user_uuid = '${UUID}'`;
+                                            WHERE User_uuid = ${UUID}`;
+      console.log("ROWS", rows);
       return { success: true, data: rows };
     }
   } catch (error) {
@@ -76,7 +71,7 @@ export async function getPrizesFromDB() {
     if (process.env.ENVIRONMENT_NON_DB === "prod") {
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes
-                                            WHERE user_uuid = ${UUID}`;
+                                            WHERE User_uuid = ${UUID}`;
       return { success: true, data: rows };
     }
   } catch (error) {

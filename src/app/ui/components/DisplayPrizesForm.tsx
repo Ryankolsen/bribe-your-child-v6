@@ -24,6 +24,7 @@ export default function DisplayPrizesForm({
     }
   }
 
+  console.log("the UI is working", totalPrizesDb);
   return (
     <div className="pt-20">
       <div className="flex flex-wrap justify-center gap-4 pt-6">
