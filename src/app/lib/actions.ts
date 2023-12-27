@@ -12,7 +12,7 @@ export async function updateTotalPointsRev(pointValue: number) {
   console.log("query", process.env.ENVIRONMENT as Environment);
   if (!pointValue) return new Error("Point value required");
   try {
-    if (process.env.ENVIRONMENT === "prod") {
+    if (process.env.ENVIRONMENT_NON_DB === "prod") {
       await sql`UPDATE totalpoints
                       SET Points=${Number(pointValue)}
                       WHERE uuid = ${UUID};`;
@@ -22,7 +22,7 @@ export async function updateTotalPointsRev(pointValue: number) {
     return { totalPoints: 0, error: error };
   }
   try {
-    if (process.env.ENVIRONMENT === "dev") {
+    if (process.env.ENVIRONMENT_NON_DB === "dev") {
       await sql`UPDATE totalpoints_dev
                       SET Points=${Number(pointValue)}
                       WHERE uuid = ${UUID};`;
@@ -60,7 +60,7 @@ export async function addPrize(formData: FormData) {
   const pointValue = formData.get("pointValue");
   if (prizeName) {
     try {
-      if (process.env.ENVIRONMENT === "dev") {
+      if (process.env.ENVIRONMENT_NON_DB === "dev") {
         await sql`INSERT INTO prizes_dev (uuid, point_value, description, User_Uuid)
                           VALUES (${newUuid}, ${Number(
           pointValue
@@ -71,7 +71,7 @@ export async function addPrize(formData: FormData) {
       return NextResponse.json({ error }, { status: 500 });
     }
     try {
-      if (process.env.ENVIRONMENT === "prod") {
+      if (process.env.ENVIRONMENT_NON_DB === "prod") {
         await sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid)
                           VALUES (${newUuid}, ${Number(
           pointValue
@@ -100,12 +100,12 @@ export async function cashInPointsFromDB({
 
 export async function deletePrizeFromDB({ uuid }: { uuid: string }) {
   try {
-    if (process.env.ENVIRONMENT === "dev") {
+    if (process.env.ENVIRONMENT_NON_DB === "dev") {
       await sql`DELETE
                       FROM prizes_dev
                       WHERE uuid = ${uuid}`;
     }
-    if (process.env.ENVIRONMENT === "prod") {
+    if (process.env.ENVIRONMENT_NON_DB === "prod") {
       await sql`DELETE
                       FROM prizes
                       WHERE uuid = ${uuid}`;
