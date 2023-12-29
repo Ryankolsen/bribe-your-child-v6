@@ -1,12 +1,6 @@
 import { sql } from "@vercel/postgres";
-import { Prize, TotalPoints } from "../lib/definitions";
+import { Prize } from "../lib/definitions";
 import { UUID } from "@/constants/constants";
-
-type TotalPointsDb = {
-  success: boolean;
-  data?: TotalPoints;
-  error?: string;
-};
 
 type totalPoints = {
   points: number[];
