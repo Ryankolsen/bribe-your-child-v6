@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 export default function AddPrizeForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (formRef.current) {
       const data = new FormData(formRef.current);
       try {
