@@ -75,10 +75,14 @@ export async function addPrize(formData: FormData) {
     }
     try {
       if (process.env.ENVIRONMENT_NON_DB === "prod") {
-        await sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid)
+        const imageUrl = await fetchAiImage({
+          imageDescription: prizeName.toString(),
+        });
+
+        await sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid, Link)
                           VALUES (${newUuid}, ${Number(
           pointValue
-        )}, ${prizeName.toString()}, ${UUID})`;
+        )}, ${prizeName.toString()}, ${UUID}, ${imageUrl})`;
       }
       revalidatePath("/dashboard");
     } catch (error) {
