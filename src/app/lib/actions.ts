@@ -5,11 +5,10 @@ import { revalidatePath } from "next/cache";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { Environment, UUID } from "../../constants/constants";
+import { UUID } from "../../constants/constants";
 import OpenAI from "openai";
 
 export async function updateTotalPointsRev(pointValue: number) {
-  console.log("query", process.env.ENVIRONMENT as Environment);
   if (!pointValue) return new Error("Point value required");
   try {
     if (process.env.ENVIRONMENT_NON_DB === "prod") {
@@ -61,10 +60,14 @@ export async function addPrize(formData: FormData) {
   if (prizeName) {
     try {
       if (process.env.ENVIRONMENT_NON_DB === "dev") {
-        await sql`INSERT INTO prizes_dev (uuid, point_value, description, User_Uuid)
+        const imageUrl = await fetchAiImage({
+          imageDescription: prizeName.toString(),
+        });
+
+        await sql`INSERT INTO prizes_dev (uuid, point_value, description, User_Uuid, Link)
                           VALUES (${newUuid}, ${Number(
           pointValue
-        )}, ${prizeName.toString()}, ${UUID})`;
+        )}, ${prizeName.toString()}, ${UUID}, ${imageUrl})`;
       }
       revalidatePath("/dashboard");
     } catch (error) {
@@ -82,6 +85,26 @@ export async function addPrize(formData: FormData) {
       return NextResponse.json({ error }, { status: 500 });
     }
   }
+}
+
+export async function fetchAiImage({
+  imageDescription,
+}: {
+  imageDescription: string;
+}) {
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const prompt = `create a cartoon image of ${imageDescription} that is appropriate for a five year old`;
+
+  console.log("starting");
+  const image = await openai.images.generate({
+    model: "dall-e-3",
+    prompt: prompt,
+  });
+  console.log("ending");
+
+  return image.data[0].url;
 }
 
 export async function cashInPointsFromDB({
@@ -114,20 +137,4 @@ export async function deletePrizeFromDB({ uuid }: { uuid: string }) {
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
-}
-
-export async function testAi() {
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
-  console.log("starting");
-  const image = await openai.images.generate({
-    model: "dall-e-3",
-    prompt: "A cute baby sea otter",
-  });
-  console.log("ending");
-
-  console.log(image.data[0].url);
-  return image.data[0].url;
 }

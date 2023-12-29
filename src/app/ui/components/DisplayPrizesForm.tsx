@@ -1,7 +1,6 @@
 "use client";
 
 import { TotalPrizesDb } from "@/app/lib/definitions";
-import placeholderImage from "../../../../public/alicorn.png";
 import Image from "next/image";
 import { cashInPointsFromDB, deletePrizeFromDB } from "../../lib/actions";
 
@@ -24,7 +23,6 @@ export default function DisplayPrizesForm({
     }
   }
 
-  console.log("the UI is working", totalPrizesDb);
   return (
     <div className="pt-20">
       <div className="flex flex-wrap justify-center gap-4 pt-6">
@@ -39,7 +37,7 @@ export default function DisplayPrizesForm({
               >
                 <figure>
                   <Image
-                    src={placeholderImage}
+                    src={prize.link}
                     width={500}
                     height={500}
                     alt="Alicorn"
