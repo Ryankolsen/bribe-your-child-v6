@@ -9,7 +9,9 @@ export default function AddPrizeForm() {
     if (formRef.current) {
       const data = new FormData(formRef.current);
       try {
+        console.log("starting add prize");
         await addPrize(data);
+        console.log("finished adding prize");
       } catch (error) {
         console.error("Error occurred:", error);
       } finally {

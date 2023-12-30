@@ -11,7 +11,7 @@ import OpenAI from "openai";
 export async function updateTotalPointsRev(pointValue: number) {
   if (!pointValue) return new Error("Point value required");
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "prod") {
+    if (process.env.ENVIRONMENT === "prod") {
       await sql`UPDATE totalpoints
                       SET Points=${Number(pointValue)}
                       WHERE uuid = ${UUID};`;
@@ -21,7 +21,7 @@ export async function updateTotalPointsRev(pointValue: number) {
     return { totalPoints: 0, error: error };
   }
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "dev") {
+    if (process.env.ENVIRONMENT === "dev") {
       await sql`UPDATE totalpoints_dev
                       SET Points=${Number(pointValue)}
                       WHERE uuid = ${UUID};`;
@@ -59,7 +59,7 @@ export async function addPrize(formData: FormData) {
   const pointValue = formData.get("pointValue");
   if (prizeName) {
     try {
-      if (process.env.ENVIRONMENT_NON_DB === "dev") {
+      if (process.env.ENVIRONMENT === "dev") {
         const imageUrl = await fetchAiImage({
           imageDescription: prizeName.toString(),
         });
@@ -74,16 +74,25 @@ export async function addPrize(formData: FormData) {
       return NextResponse.json({ error }, { status: 500 });
     }
     try {
-      if (process.env.ENVIRONMENT_NON_DB === "prod") {
+      if (process.env.ENVIRONMENT === "prod") {
+        console.log("starting to add prizes post");
         const imageUrl = await fetchAiImage({
           imageDescription: prizeName.toString(),
         });
-
+        console.log("prize name", prizeName);
+        console.log(
+          "sql to add: ",
+          `INSERT INTO prizes (uuid, point_value, description, User_Uuid, Link)
+                     VALUES (${newUuid}, ${Number(
+            pointValue
+          )}, ${prizeName.toString()}, ${UUID}, ${imageUrl})`
+        );
         await sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid, Link)
                           VALUES (${newUuid}, ${Number(
           pointValue
         )}, ${prizeName.toString()}, ${UUID}, ${imageUrl})`;
       }
+      console.log("ended post");
       revalidatePath("/dashboard");
     } catch (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -127,12 +136,12 @@ export async function cashInPointsFromDB({
 
 export async function deletePrizeFromDB({ uuid }: { uuid: string }) {
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "dev") {
+    if (process.env.ENVIRONMENT === "dev") {
       await sql`DELETE
                       FROM prizes_dev
                       WHERE uuid = ${uuid}`;
     }
-    if (process.env.ENVIRONMENT_NON_DB === "prod") {
+    if (process.env.ENVIRONMENT === "prod") {
       await sql`DELETE
                       FROM prizes
                       WHERE uuid = ${uuid}`;

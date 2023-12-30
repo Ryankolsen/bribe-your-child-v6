@@ -8,9 +8,9 @@ type totalPoints = {
 
 export async function getTotalPointsRev() {
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "dev") {
+    if (process.env.ENVIRONMENT === "dev") {
       const result = await sql`SELECT points
-                                     FROM totalPoints
+                                     FROM totalPoints_dev
                                      WHERE Uuid = ${UUID}`;
 
       const { rows } = result;
@@ -27,7 +27,7 @@ export async function getTotalPointsRev() {
     };
   }
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "prod") {
+    if (process.env.ENVIRONMENT === "prod") {
       const { rows } = await sql<totalPoints>`SELECT points
                                                   FROM totalPoints
                                                   WHERE Uuid = ${UUID}`;
@@ -47,11 +47,19 @@ export async function getTotalPointsRev() {
 }
 
 export async function getPrizesFromDB() {
+  console.log("ENV:", process.env.ENVIRONMENT);
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "dev") {
+    if (process.env.ENVIRONMENT === "dev") {
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes_dev
                                             WHERE User_uuid = ${UUID}`;
+      console.log("rows", rows);
+      console.log(
+        "query",
+        `SELECT *
+                 FROM prizes_dev
+                 WHERE User_uuid = ${UUID}`
+      );
       return { success: true, data: rows };
     }
   } catch (error) {
@@ -61,10 +69,14 @@ export async function getPrizesFromDB() {
     };
   }
   try {
-    if (process.env.ENVIRONMENT_NON_DB === "prod") {
+    if (process.env.ENVIRONMENT === "prod") {
+      console.log("RUNNING fetch prizes");
+
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes
                                             WHERE User_uuid = ${UUID}`;
+      console.log("ROWS fetched", rows);
+
       return { success: true, data: rows };
     }
   } catch (error) {
