@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const maxDuration = 25;
 const authOptions = {
   providers: [
     GoogleProvider({
