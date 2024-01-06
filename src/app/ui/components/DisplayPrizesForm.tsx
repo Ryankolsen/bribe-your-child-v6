@@ -37,7 +37,7 @@ export default function DisplayPrizesForm({
               >
                 <figure>
                   <Image
-                    src={prize.link}
+                    src={prize.link || ""}
                     width={500}
                     height={500}
                     alt="Alicorn"

@@ -53,7 +53,6 @@ export async function getPrizesFromDB() {
       const { rows } = await sql<Prize>`SELECT *
                                             FROM prizes_dev
                                             WHERE User_uuid = ${UUID}`;
-      console.log("rows", rows);
       console.log(
         "query",
         `SELECT *
