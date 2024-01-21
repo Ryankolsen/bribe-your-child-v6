@@ -3,6 +3,7 @@
 import { TotalPrizesDb } from "@/app/lib/definitions";
 import Image from "next/image";
 import { cashInPointsFromDB, deletePrizeFromDB } from "../../lib/actions";
+import placeholderImage from "../../../../public/alicorn.png";
 
 export default function DisplayPrizesForm({
   totalPrizesDb,
@@ -37,7 +38,7 @@ export default function DisplayPrizesForm({
               >
                 <figure>
                   <Image
-                    src={prize.link || ""}
+                    src={prize.link || placeholderImage}
                     width={500}
                     height={500}
                     alt="Alicorn"
