@@ -74,24 +74,19 @@ export async function addPrize(formData: FormData) {
       return NextResponse.json({ error }, { status: 500 });
     }
     try {
-      if (process.env.ENVIRONMENT === "prod") {
-        console.log("starting to add prizes post");
-        const imageUrl = await fetchAiImage({
-          imageDescription: prizeName.toString(),
-        });
-        console.log("prize name", prizeName);
-        console.log(
-          "sql to add: ",
-          `INSERT INTO prizes (uuid, point_value, description, User_Uuid, Link)
-                     VALUES (${newUuid}, ${Number(
-            pointValue
-          )}, ${prizeName.toString()}, ${UUID}, ${imageUrl})`
-        );
-        await sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid, Link)
-                          VALUES (${newUuid}, ${Number(
-          pointValue
-        )}, ${prizeName.toString()}, ${UUID}, ${imageUrl})`;
-      }
+      if (process.env.ENVIRONMENT === "prod")
+        try {
+          if (process.env.ENVIRONMENT === "prod") {
+            await sql`INSERT INTO prizes (uuid, point_value, description, User_Uuid)
+                              VALUES (${newUuid}, ${Number(
+              pointValue
+            )}, ${prizeName.toString()}, ${UUID})`;
+          }
+          revalidatePath("/dashboard");
+        } catch (error) {
+          return NextResponse.json({ error }, { status: 500 });
+        }
+
       console.log("ended post");
       revalidatePath("/dashboard");
     } catch (error) {
